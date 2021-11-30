@@ -46,8 +46,16 @@ class MyFrame(wx.Frame):
         sizer_2.Add(self.createInstance_button, 1, wx.ALIGN_CENTER_VERTICAL | wx.LEFT, 10)
 
         self.grid_1 = wx.grid.Grid(self.panel_1, wx.ID_ANY, size=(1, 1))
-        self.grid_1.CreateGrid(10, 0)
-        sizer_1.Add(self.grid_1, 1, wx.EXPAND, 0)
+        #sizer_1.Add(self.grid_1, 1, wx.EXPAND, 0)
+        self.grid_1.CreateGrid(20, 3)
+        self.grid_1.SetMinSize((620, 200))
+        self.grid_1.SetColLabelValue(0,"Instance ID")
+        self.grid_1.SetColSize(0,200)
+        self.grid_1.SetColLabelValue(1,"Instance Type")
+        self.grid_1.SetColSize(1,150)
+        self.grid_1.SetColLabelValue(2,"Security Group")
+        self.grid_1.SetColSize(2,270)
+        sizer_1.Add(self.grid_1, 1, wx.ALL | wx.EXPAND, 1)
 
         sizer_3 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_1.Add(sizer_3, 1, wx.EXPAND, 0)
@@ -118,6 +126,8 @@ class MyFrame(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.showFrame, self.createInstance_button)
 
         self.Bind(wx.EVT_BUTTON, self.selectRegion, self.refresh_button)
+        
+        self.Bind(wx.EVT_BUTTON, self.stopInstance, self.stop_button)
 
    # Declare functions for main GUI
     def showFrame(self, event):
@@ -135,7 +145,18 @@ class MyFrame(wx.Frame):
         print(self.get_instances)
         for row in range(len(self.get_instances)):
             for col in range(3):
-                self.grid.SetCellValue(row,col,self.get_instances[row][col])
+                self.grid_1.SetCellValue(row,col,self.get_instances[row][col])
+                
+    def stopInstance(self, event):
+        self.region = self.refreshRegion_input.GetValue()
+        self.instanceID = self.instance_name_input.GetValue()
+        self.output = ec2f.stop_instance(self.instanceID, self.region)
+     #   event.Skip()
+     
+    def terminateInstance(self,event):
+        self.region = self.refreshRegion_input.GetValue()
+        self.instanceID = self.instance_name_input.GetValue()
+        self.output = ec2f.terminate_instance(self.instanceID, self.region)
 # end of class MyFrame
 
 class MyFrame1(wx.Frame):
@@ -204,6 +225,18 @@ class MyFrame1(wx.Frame):
 
         self.Layout()
         # end wxGlade
+        # Bind functions to buttons 
+        self.Bind(wx.EVT_BUTTON, self.createInstance, self.CI_create_button)
+
+        # Declare Function
+    def createInstance(self, event):
+        self.ima = "ami-0bd9c26722573e69b"
+        self.type_i = self.CI_Type_input.GetValue()
+        self.key = self.CI_KP_input.GetValue()
+        self.sg = self.CI_SG_input.GetValue()
+        self.region = self.CI_Region_input.GetValue()
+        self.response = ec2f.create_instance(self.ima,self.type_i,self.key,self.sg,self.region)
+        print(self.response)
 
 # end of class MyFrame1
 
