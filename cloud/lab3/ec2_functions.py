@@ -2,6 +2,7 @@ import boto3
 from boto3.session import Session
 from datetime import datetime, timedelta
 import time
+from PIL import Image
 
 
 #Create a Java program to manage your EC2 instance. Start with listing region names and their endpoints.
@@ -116,7 +117,25 @@ def monitor_cpu(instance_id, Start , End, region="eu-north-1"):
 
     print("CPU utilization: ", response['Datapoints'][0]['Average'])
     return response['Datapoints'][0]['Average']
+"""
 
+def monitor_cpu(instance_id, Start , End, region="eu-north-1"):
+    client = boto3.client('cloudwatch',region_name=region)
+    response = client.get_metric_widget_image(
+        MetricWidget='string',
+        OutputFormat='string'
+    )"""
+    
+def get_metrics_image_CPU(instance_id, Start , End, region="eu-north-1"):
+    metric_name = "CPUUtilization"
+    client = boto3.client('cloudwatch',region_name=region)
+    json = '{"metrics": [["AWS/EC2", "' + metric_name +'", "InstanceId", "'+ instance_id +'"]]}'
+    response = client.get_metric_widget_image(MetricWidget=json)
+    file_name = "chart-" + instance_id +'-'+ metric_name + ".png"
+    with open (file_name, 'wb') as f:
+        f.write(response["MetricWidgetImage"])
+        img = Image.open(file_name)
+        img.show()
 #start_instance("i-0df06c8c4c55f6442")
 #stop_instance("i-0df06c8c4c55f6442")
 

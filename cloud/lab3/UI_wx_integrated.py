@@ -23,7 +23,8 @@ class MyFrame(wx.Frame):
         wx.Frame.__init__(self, *args, **kwds)
         self.SetSize((600, 500))
         self.SetTitle("AWS Monitoring")
-        self.SetBackgroundColour(wx.Colour(118, 148, 0))
+        self.SetBackgroundColour(wx.Colour(108, 91, 123))
+        self.SetForegroundColour(wx.Colour(200, 200, 200))
 
         self.panel_1 = wx.Panel(self, wx.ID_ANY)
 
@@ -70,8 +71,9 @@ class MyFrame(wx.Frame):
         sizer_3.Add(self.stop_button, 1, wx.LEFT | wx.RIGHT, 10)
 
         self.terminate_button = wx.Button(self.panel_1, wx.ID_ANY, "Terminate")
+        
         sizer_3.Add(self.terminate_button, 1, wx.LEFT | wx.RIGHT, 10)
-
+        self.terminate_button.Hide()
         static_line_1 = wx.StaticLine(self.panel_1, wx.ID_ANY)
         sizer_1.Add(static_line_1, 0, wx.BOTTOM | wx.EXPAND | wx.TOP, 10)
 
@@ -114,9 +116,9 @@ class MyFrame(wx.Frame):
         self.monitor_button = wx.Button(self.panel_1, wx.ID_ANY, "Start Monitoring")
         sizer_1.Add(self.monitor_button, 0, wx.ALIGN_CENTER_HORIZONTAL | wx.BOTTOM | wx.TOP, 7)
 
-        self.monitoring_output = wx.TextCtrl(self.panel_1, wx.ID_ANY, "")
+        #self.monitoring_output = wx.TextCtrl(self.panel_1, wx.ID_ANY, "")
         #self.monitoring_output.Hide()
-        sizer_1.Add(self.monitoring_output, 0, wx.ALL | wx.EXPAND, 5)
+        #sizer_1.Add(self.monitoring_output, 0, wx.ALL | wx.EXPAND, 5)
 
         self.panel_1.SetSizer(sizer_1)
 
@@ -167,8 +169,8 @@ class MyFrame(wx.Frame):
         self.To = self.datepicker_ctrl_2.GetValue()
         self.startTime = str(self.From.Format('%d/%m/%y'))
         self.endTime = str(self.To.Format('%d/%m/%y'))
-        self.response = ec2f.monitor_cpu(self.instanceID, self.startTime , self.endTime, self.region)
-        self.monitoring_output.SetValue(str("CPU Utilization: " + str(self.response)))
+        self.response = ec2f.get_metrics_image_CPU(self.instanceID, self.startTime , self.endTime, self.region)
+        #self.monitoring_output.SetValue(str("CPU Utilization: " + str(self.response)))
         #self.monitoring_output.Hide()
         print(self.response)
 # end of class MyFrame
@@ -180,10 +182,9 @@ class MyFrame1(wx.Frame):
         wx.Frame.__init__(self, *args, **kwds)
         self.SetSize((470, 200))
         self.SetTitle("Create Instance")
-        self.SetBackgroundColour(wx.Colour(255, 50, 255))
-        self.SetForegroundColour(wx.Colour(24, 143, 93))
-        self.SetFont(wx.Font(10, wx.FONTFAMILY_DECORATIVE, wx.FONTSTYLE_ITALIC, wx.FONTWEIGHT_BOLD, 0, ""))
-
+        self.SetBackgroundColour(wx.Colour(108, 91, 123))
+        self.SetForegroundColour(wx.Colour(200,200,200))
+    
         self.panel_1 = wx.Panel(self, wx.ID_ANY)
 
         sizer_1 = wx.BoxSizer(wx.VERTICAL)
@@ -199,7 +200,6 @@ class MyFrame1(wx.Frame):
 
         self.CI_Type_input = wx.TextCtrl(self.panel_1, wx.ID_ANY, "")
         self.CI_Type_input.SetMinSize((250, 23))
-        self.CI_Type_input.SetBackgroundColour(wx.Colour(46, 42, 255))
         sizer_4.Add(self.CI_Type_input, 0, wx.ALIGN_CENTER_VERTICAL, 0)
 
         sizer_5 = wx.BoxSizer(wx.HORIZONTAL)
