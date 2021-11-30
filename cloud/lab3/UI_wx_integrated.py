@@ -115,7 +115,7 @@ class MyFrame(wx.Frame):
         sizer_1.Add(self.monitor_button, 0, wx.ALIGN_CENTER_HORIZONTAL | wx.BOTTOM | wx.TOP, 7)
 
         self.monitoring_output = wx.TextCtrl(self.panel_1, wx.ID_ANY, "")
-        self.monitoring_output.Hide()
+        #self.monitoring_output.Hide()
         sizer_1.Add(self.monitoring_output, 0, wx.ALL | wx.EXPAND, 5)
 
         self.panel_1.SetSizer(sizer_1)
@@ -128,6 +128,8 @@ class MyFrame(wx.Frame):
         self.Bind(wx.EVT_BUTTON, self.selectRegion, self.refresh_button)
         
         self.Bind(wx.EVT_BUTTON, self.stopInstance, self.stop_button)
+        
+        self.Bind(wx.EVT_BUTTON, self.monitorInstance, self.monitor_button)
 
    # Declare functions for main GUI
     def showFrame(self, event):
@@ -157,6 +159,18 @@ class MyFrame(wx.Frame):
         self.region = self.refreshRegion_input.GetValue()
         self.instanceID = self.instance_name_input.GetValue()
         self.output = ec2f.terminate_instance(self.instanceID, self.region)
+    
+    def monitorInstance(self, event):
+        self.region = self.region_input.GetValue()
+        self.instanceID = self.instanceId_input.GetValue()
+        self.From = self.datepicker_ctrl_1.GetValue()
+        self.To = self.datepicker_ctrl_2.GetValue()
+        self.startTime = str(self.From.Format('%d/%m/%y'))
+        self.endTime = str(self.To.Format('%d/%m/%y'))
+        self.response = ec2f.monitor_cpu(self.instanceID, self.startTime , self.endTime, self.region)
+        self.monitoring_output.SetValue(str("CPU Utilization: " + str(self.response)))
+        #self.monitoring_output.Hide()
+        print(self.response)
 # end of class MyFrame
 
 class MyFrame1(wx.Frame):
