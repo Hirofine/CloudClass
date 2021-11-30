@@ -9,6 +9,7 @@ import ec2_functions as ec2f
 
 # begin wxGlade: dependencies
 import wx.adv
+import wx.grid
 # end wxGlade
 
 # begin wxGlade: extracode
@@ -44,9 +45,9 @@ class MyFrame(wx.Frame):
         self.createInstance_button.SetFont(wx.Font(9, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, 0, "Segoe UI"))
         sizer_2.Add(self.createInstance_button, 1, wx.ALIGN_CENTER_VERTICAL | wx.LEFT, 10)
 
-        self.list_box_1 = wx.ListBox(self.panel_1, wx.ID_ANY, choices=["choice 1"])
-        self.list_box_1.SetFont(wx.Font(9, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_NORMAL, 0, "Segoe UI"))
-        sizer_1.Add(self.list_box_1, 7, wx.ALL | wx.EXPAND, 8)
+        self.grid_1 = wx.grid.Grid(self.panel_1, wx.ID_ANY, size=(1, 1))
+        self.grid_1.CreateGrid(10, 0)
+        sizer_1.Add(self.grid_1, 1, wx.EXPAND, 0)
 
         sizer_3 = wx.BoxSizer(wx.HORIZONTAL)
         sizer_1.Add(sizer_3, 1, wx.EXPAND, 0)
