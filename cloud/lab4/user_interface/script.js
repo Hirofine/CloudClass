@@ -22,7 +22,7 @@ $('.login').on('submit', function () {
 
 
 $('.output').on('submit', function () {
-    fetch('http://127.0.0.1:8000/books/?format=json').then(function(response) {
+    fetch('http://127.0.0.1:8000/books/?id=1').then(function(response) {
         return response.json();
       }).then(function(data) {
         console.log(data);
