@@ -42,6 +42,22 @@ $('.output').on('submit', function () {
       })
     return false;
 });
+
+$('.delete').on('submit', function () {
+    
+    let url = 'http://127.0.0.1:8000/books/' + document.getElementById('index_del').value;
+    console.log(url);
+    fetch(url,{
+        method:'DELETE',
+        headers: {"Content-type": "application/json; charset=UTF-8"},
+        body: JSON.stringify("")
+    })
+    //.then(response => response.json()) 
+    //.then(json => console.log(json));
+    //.catch(err => console.log(err));
+    
+    return false;
+});
 //get
 
 
