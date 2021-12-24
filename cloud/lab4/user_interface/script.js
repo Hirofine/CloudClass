@@ -3,9 +3,9 @@ $('.login').on('submit', function () {
     
     
     let _data = {
+        note_id: 3,
         title: document.getElementById('title').value,
-        author: document.getElementById('text').value, 
-        id:3
+        text: document.getElementById('text').value, 
     }
 
     fetch('http://127.0.0.1:8000/books/', {
@@ -22,13 +22,21 @@ $('.login').on('submit', function () {
 
 
 $('.output').on('submit', function () {
-    fetch('http://127.0.0.1:8000/books/?id=1').then(function(response) {
+    
+    //adress = 'http://127.0.0.1:8000/book/'  + document.getElementById('element').value;
+    console.log("GET function");
+    fetch('http://127.0.0.1:8000/books/').then(function(response) {
         return response.json();
       }).then(function(data) {
         console.log(data);
-        $('#print').append(JSON.stringify(data));
+        res = "<div>";
+        for(var i=0; i<data.lenght;i++){
+            res+="<div> <div>" + data[i].title + "</div><div>" + data[i].author + "</div>";
+        }
+        res+="</div>";
+        $('#print').text(res);
       }).catch(function() {
-        console.log("Booo");
+        console.log("fuck it");
       })
     return false;
 });

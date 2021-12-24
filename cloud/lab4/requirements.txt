@@ -1,5 +1,0 @@
-Djangorestframework
-Django
-markdown
-django-filter
-django-cors-headers
