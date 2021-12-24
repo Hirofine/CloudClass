@@ -5,7 +5,7 @@ $('.login').on('submit', function () {
     let _data = {
         note_id: 3,
         title: document.getElementById('title').value,
-        text: document.getElementById('text').value, 
+        author: document.getElementById('text').value, 
     }
 
     fetch('http://127.0.0.1:8000/books/', {
@@ -29,12 +29,14 @@ $('.output').on('submit', function () {
         return response.json();
       }).then(function(data) {
         console.log(data);
-        res = "<div>";
-        for(var i=0; i<data.lenght;i++){
-            res+="<div> <div>" + data[i].title + "</div><div>" + data[i].author + "</div>";
+        console.log(data.length);
+        res = '<div>';
+        for(let i=0; i<data.length; i++){
+            console.log("itteration : " + i);
+            res+='<div> <ul>' + data[i].title + '</ul><ul>' + data[i].author + '</ul></div>';
         }
-        res+="</div>";
-        $('#print').text(res);
+        res+='</div>';
+        $('#print').html(res);
       }).catch(function() {
         console.log("fuck it");
       })
